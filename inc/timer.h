@@ -1,31 +1,26 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include <sys/time.h>
+#include <time.h>
 
 class Timer {
 
   private:
-     double m_start;
-     double m_stop;
-     struct timeval now;
+     struct timespec m_start;
+     struct timespec m_stop;
 
   public:
 
     Timer() {
-       m_start=0;
-       m_stop = 0;
     }
 
-    void start() {
-       gettimeofday(&now, NULL);
-       m_start = (now.tv_sec*1000.0)+(now.tv_usec/1000.0);
+    inline void start() {
+       clock_gettime(CLOCK_MONOTONIC,&m_start);
     }
 
-    double stop() {
-       gettimeofday(&now, NULL);
-       m_stop = (now.tv_sec*1000.0)+(now.tv_usec/1000.0);
-       return m_stop - m_start;
+    inline double stop() {
+	   clock_gettime(CLOCK_MONOTONIC,&m_stop);
+	   return 1000*(m_stop.tv_sec - m_start.tv_sec) + (m_stop.tv_nsec - m_start.tv_nsec)/1000000.0;
     }
 
 };
