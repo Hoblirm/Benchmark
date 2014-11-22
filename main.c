@@ -7,8 +7,8 @@ int main(int argc, char** argv) {
    Timer t;
    t.start();
    usleep(3000000);
-   double ms = t.stop();
-   printf("Timer recorded %lf ms\n",ms);
+   t.stop();
+   printf("Timer recorded %lf ms\n",t.usAvg()/1000);
    return 0;
 }
 
